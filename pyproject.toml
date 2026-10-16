@@ -1,0 +1,17 @@
+[project]
+name = "crs2r-image-processing"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Noah Jutz", email = "git@noahjutz.anonaddy.com" }
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+crs2r-image-processing = "crs2r_image_processing:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
