@@ -7,7 +7,12 @@ authors = [
     { name = "Noah Jutz", email = "git@noahjutz.anonaddy.com" }
 ]
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "numpy>=2.2.6",
+    "opencv-python>=5.0.0.93",
+    "pytest>=9.1.1",
+    "scipy>=1.15.3",
+]
 
 [project.scripts]
 crs2r-image-processing = "crs2r_image_processing:main"
