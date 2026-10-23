@@ -308,7 +308,6 @@ class DetectorFixedPts(Detector):
         c = (coords_ul_sub_im + c_local).astype("float32")
 
         if not blob_found:
-            print("Unable to find corner {}".format(i + 1))
-            exit()
+            raise RuntimeError("Unable to find corner {}".format(i + 1))
 
         return c, blob_found
