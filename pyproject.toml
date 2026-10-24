@@ -16,6 +16,7 @@ dependencies = [
 
 [project.scripts]
 crs2r-image-processing = "crs2r_image_processing:main"
+crs2r-select-markers = "crs2r_image_processing.select_markers:main"
 
 [build-system]
 requires = ["uv_build>=0.13.1,<0.14.0"]
