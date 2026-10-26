@@ -37,13 +37,15 @@ class Measurements:
         if self.plate_pose.T__W_C is None:
             self.camera_localization(frame)
 
-        frame = cv2.bitwise_and(frame, frame, mask=self.mask)
+        frame_masked = cv2.bitwise_and(frame, frame, mask=self.mask)
         if get_ball_subimg:
-            frame_copy = frame.copy()
+            frame_copy = frame_masked.copy()
 
-        corners_img_coords, ball_img_coords = self.detector.process_frame(
-            frame
-        )  # (x,y)
+        # corners are detected on the unmasked frame: the static mask is
+        # aligned with the plate pose at localization time and clips the maze
+        # corner dots as soon as the plate tilts
+        corners_img_coords = self.detector.detect_corners(frame)  # (x,y)
+        ball_img_coords = self.detector.detect_ball(frame_masked)
 
         raw_pts = np.zeros((5, 2))
         raw_pts[:4, :] = corners_img_coords

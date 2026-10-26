@@ -180,10 +180,14 @@ class Detector:
 
         missing = False
         for i, sub_im in enumerate(cropped_corners_imgs):
-            corners[i, :], found = self.detect_corner(
-                sub_im, i, subcoords_corners_imgs[i][0]
-            )
-            missing = missing or not found
+            c, found = self.detect_corner(sub_im, i, subcoords_corners_imgs[i][0])
+            if found:
+                corners[i, :] = c
+            else:
+                missing = True
+                if self.corners is not None:
+                    # keep the previous estimate; never write the (empty) crop center
+                    corners[i, :] = self.corners[i, :]
         self.corners_missing = missing
 
         self.corners = corners
