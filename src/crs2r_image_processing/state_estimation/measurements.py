@@ -182,7 +182,7 @@ class Measurements:
                  note: the z-coordinate of the ball in maze frame is fixed and known
                  by assumption of constant contact with the maze: z__m_b = ball_radius.
         """
-        if np.any(ball_undist == np.nan):
+        if np.any(np.isnan(ball_undist)):
             return np.array([np.nan, np.nan, np.nan])
         d = PlatePoseEstimator.R_BALL
         v, u = ball_undist
