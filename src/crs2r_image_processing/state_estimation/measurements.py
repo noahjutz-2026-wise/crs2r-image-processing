@@ -99,6 +99,37 @@ class Measurements:
         )
         return subimg
 
+    def get_detections(self):
+        """
+        Return the raw pixel coordinates of the tracked dots in the image frame.
+
+        Returns:
+            fixed_pts: np.ndarray, dim: (4, 2), outer fixed dots, (x, y) = (row, col)
+            corners: np.ndarray, dim: (4, 2), maze corner dots, (x, y) = (row, col)
+            ball: np.ndarray, dim: (2,), ball dot, (x, y) = (row, col), NaN if not detected
+        """
+        return (
+            self.detector_fixed_points.corners,
+            self.detector.corners,
+            self.detector.ball_pos,
+        )
+
+    def annotate(self, frame):
+        """
+        Draw the tracked dots on a copy of the frame.
+
+        Colors: outer fixed dots blue, maze corners green, ball red.
+        """
+        out = frame.copy()
+        fixed_pts, corners, ball = self.get_detections()
+        for pts, col in ((fixed_pts, (255, 0, 0)), (corners, (0, 255, 0))):
+            if pts is not None:
+                for p in pts:
+                    cv2.circle(out, (round(p[1]), round(p[0])), 4, col, -1)
+        if ball is not None and not np.isnan(ball).any():
+            cv2.circle(out, (round(ball[1]), round(ball[0])), 5, (0, 0, 255), 2)
+        return out
+
     def get_ball_subimg(self):
         return self.ball_subimg
 
